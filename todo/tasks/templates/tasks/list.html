@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+
+	body{
+		background-color: bbd0ff;
+		font-family: Garamond, serif;
+	}
+
+	input{
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		box-sizing: border-box;
+	}
+
+	input::placeholder {
+	  color: #d3d3d3;
+	}
+
+	.submit{
+		background-color: #b0e77c;
+	}
+
+	.left-column{
+		width:600px;
+		margin: 20px auto;
+		margin-left: 50px;
+		float: left;
+		padding:20px;
+		background-color: #fff;
+		border-radius: 3px;
+		box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.05);
+	}
+
+	.right-column{
+		width:800px;
+		margin: 20px auto;
+		float: right;
+		margin-right: 50px;
+		padding:20px;
+		background-color: #fff;
+		border-radius: 3px;
+		box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.05);
+	}
+
+	.item-row{
+		background-color: ffd6ff;
+		margin: 10px;
+		padding: 20px;
+		border-radius: 3px;
+		color: #fff;
+		font-size: 16px;
+		box-shadow: 0px -1px 10px -4px rgba(0,0,0,0.05);
+	}
+
+	.btn-danger{
+		background-color: b8c0ff;
+		border-color: b8c0ff;
+	}
+	.btn-info{
+		background-color: #e7c6ff;
+		border-color: #e7c6ff;
+	}
+
+</style>
+
+<div class="left-column">
+
+	<form method="POST" action="/">
+		{% csrf_token %}
+		{{form.title}}
+		<input class="btn btn-info" type="submit" name="Create Task">
+	</form>
+
+	<div class="todo-list">
+
+	{% for task in tasks %}
+		<div class="item-row">
+			<a class="btn btn-sm btn-info" href="{% url 'update_task' task.id %}">Update</a>
+			<a class="btn btn-sm btn-danger" href="{% url 'delete' task.id %}">Delete</a>
+
+			{% if task.complete == True %}
+			<strike>{{task}}</strike>
+			{% else %}
+			<span>{{task}}</span>
+			{% endif %}
+		</div>
+	{% endfor %}
+	</div>
+</div>
+
+<div class="right-column">
+<h6>What would you like to prepare yourself for?</h6>
+<form action="/suggestions" method="POST">
+	{% csrf_token %}
+    <button class = "btn btn-sm btn-info" id="tornado" type="submit" name = "Tornado"><h3>Tornado</h3></button>
+		<button class = "btn btn-sm btn-info" id="floods" type="submit" name = "Flood"><h3>Floods</h3></button>
+		<button class = "btn btn-sm btn-info" id="cyclones" type="submit" name = "Cyclone"><h3>Cyclone</h3></button>
+</form>
+</div>
+
+<div class="right-column">
+<h6>Search for places near you</h6>
+<form action="/nearby" method="POST">
+	{% csrf_token %}
+    <button class = "btn btn-sm btn-danger" id="pharmacy" type="submit" name = "pharmacy"><h3>Pharmacies</h3></button>
+		<button class = "btn btn-sm btn-danger" id="hospital" type="submit" name = "hospital"><h3>Hospitals</h3></button>
+		<button class = "btn btn-sm btn-danger" id="police_station" type="submit" name = "police_station"><h3>police_station</h3></button>
+</form>
+</div>
